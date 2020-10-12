@@ -1,3 +1,7 @@
+local smallVolume = 10400
+local mediumVolume = 83200
+local largeVolume = 166400
+
 function round(number,decimals)
     local power = 10^decimals
     return math.floor((number/1000) * power) / power
@@ -10,6 +14,14 @@ function oreStatus(percent)
     end 
 end
 
+function getContainerVolume(size)
+    if size == "S" or size == "s" then return smallVolume
+    	elseif size == "M" or size == "m" then return mediumVolume
+    	elseif size == "L" or size == "l" then return largeVolume
+    	else return mediumVolume
+    end
+end
+
 local useL = 1 --export: Use 1 for L or 0 for t
 if useL == 1 then
     unitMeasure = "KL"
@@ -17,8 +29,11 @@ elseif useL == 0 then
     unitMeasure = "T"
 end
 
+
+
 -- Bauxite Variables 
-local maxBauxite = 10400 --export: This is the maximum mass allowed in container. Update as needed
+local bauxiteContainerSize = "L" --export: Size of the container (S, M, L)
+local maxBauxite = getContainerVolume(bauxiteContainerSize)
 local weightBauxite = 1.28 --export:
 if useL == 1 then
     massBauxite = round(math.ceil(bauxite.getItemsMass()/weightBauxite),1)
@@ -29,7 +44,8 @@ local percentBauxite = math.ceil(((math.ceil((bauxite.getItemsMass()/weightBauxi
 local statusBauxite = oreStatus(percentBauxite)
     
 -- Coal Variables
-local maxCoal = 10400 --export: This is the maximum mass allowed in container. Update as needed
+local coalContainerSize = "M" --export: Size of the container (S, M, L)
+local maxCoal = getContainerVolume(coalContainerSize)
 local weightCoal = 1.35 --export:
 if useL == 1 then
 	massCoal = round(math.ceil(coal.getItemsMass()/weightCoal),1)
@@ -40,7 +56,8 @@ local percentCoal = math.ceil(((math.ceil((coal.getItemsMass()/weightCoal) - 0.5
 local statusCoal = oreStatus(percentCoal)
 
 -- Hematite Variables
-local maxHematite = 10400 --export:;This is the maximum mass allowed in container. Update as needed
+local hematiteContainerSize = "M" --export: Size of the container (S, M, L)
+local maxHematite = getContainerVolume(hematiteContainerSize)
 local weightHematite = 5.04 --export:
 if useL == 1 then
     massHematite = round(math.ceil(hematite.getItemsMass()/weightHematite),1)
@@ -51,7 +68,8 @@ local percentHematite = math.ceil(((math.ceil((hematite.getItemsMass()/weightHem
 local statusHematite = oreStatus(percentHematite)
 
 -- Quartz Variables
-local maxQuartz = 10400 --export:;This is the maximum mass allowed in container. Update as needed
+local quartzContainerSize = "M" --export: Size of the container (S, M, L)
+local maxQuartz = getContainerVolume(quartzContainerSize)
 local weightQuartz = 2.65 --export:
 if useL == 1 then
     massQuartz = round(math.ceil(quartz.getItemsMass()/weightQuartz),1)
