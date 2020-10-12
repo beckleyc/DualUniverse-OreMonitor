@@ -1,3 +1,7 @@
+local smallVolume = 10400
+local mediumVolume = 83200
+local largeVolume = 166400
+
 function round(number,decimals)
     local power = 10^decimals
     return math.floor((number/1000) * power) / power
@@ -10,6 +14,14 @@ function oreStatus(percent)
     end 
 end
 
+function getContainerVolume(size)
+    if size == "S" or size == "s" then return smallVolume
+    	elseif size == "M" or size == "m" then return mediumVolume
+    	elseif size == "L" or size == "l" then return largeVolume
+    	else return mediumVolume
+    end
+end
+
 local useL = 1 --export: Use 1 for L or 0 for t
 if useL == 1 then
     unitMeasure = "KL"
@@ -18,7 +30,8 @@ elseif useL == 0 then
 end
 
 -- Chromite Variables 
-local maxChromite = 10400 --export: This is the maximum mass allowed in container. Update as needed
+local chromiteContainerSize = "M" --export: Size of the container (S, M, L)
+local maxChromite = getContainerVolume(chromiteContainerSize)
 local weightChromite = 4.54 --export:
 if useL == 1 then
     massChromite = round(math.ceil(chromite.getItemsMass()/weightChromite),1)
@@ -30,7 +43,8 @@ local statusChromite = oreStatus(percentChromite)
 
     
 -- Limestone Variables
-local maxLimestone = 10400 --export: This is the maximum mass allowed in container. Update as needed
+local limestoneContainerSize = "M" --export: Size of the container (S, M, L)
+local maxLimestone = getContainerVolume(limestoneContainerSize)
 local weightLimestone = 2.71 --export:
 if useL == 1 then
     massLimestone = round(math.ceil(limestone.getItemsMass()/weightLimestone),1)
@@ -41,7 +55,8 @@ local percentLimestone = math.ceil(((math.ceil((limestone.getItemsMass()/weightL
 local statusLimestone = oreStatus(percentLimestone)
 
 -- Malachite Variables
-local maxMalachite = 10400 --export: This is the maximum mass allowed in container. Update as needed
+local malachiteContainerSize = "M" --export: Size of the container (S, M, L)
+local maxMalachite = getContainerVolume(malachiteContainerSize)
 local weightMalachite = 4.00 --export:
 if useL == 1 then
     massMalachite = round(math.ceil(malachite.getItemsMass()/weightMalachite),1)
@@ -52,7 +67,8 @@ local percentMalachite = math.ceil(((math.ceil((malachite.getItemsMass()/weightM
 local statusMalachite = oreStatus(percentMalachite)
 
 -- Natron Variables
-local maxNatron = 10400 --export: This is the maximum mass allowed in container. Update as needed
+local natronContainerSize = "M" --export: Size of the container (S, M, L)
+local maxNatron = getContainerVolume(natronContainerSize)
 local weightNatron = 1.55 --export:
 if useL == 1 then
     massNatron = round(math.ceil(natron.getItemsMass()/weightNatron),1)
